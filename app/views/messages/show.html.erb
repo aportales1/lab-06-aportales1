@@ -1,0 +1,9 @@
+<h1>Message <%= @message.id %></h1>
+
+<ul>
+  <li>Chat ID: <%= @message.chat_id %></li>
+  <li>User ID: <%= @message.user_id %></li>
+  <li>Body: <%= @message.body %></li>
+</ul>
+
+<%= link_to "Back to messages", messages_path, class: "btn btn-secondary mt-2" %>
