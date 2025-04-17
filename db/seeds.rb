@@ -1,30 +1,35 @@
-# db/seeds.rb
+# Reset data
+User.destroy_all
+Chat.destroy_all
+Message.destroy_all
 
-users = []
+# Create 10 users
 10.times do |i|
-  users << User.create!(
+  User.create!(
     email: "user#{i + 1}@example.com",
     first_name: "First#{i + 1}",
     last_name: "Last#{i + 1}"
   )
 end
 
-chats = []
-5.times do
-  sender = users.sample
-  receiver = (users - [sender]).sample
-  chats << Chat.create!(
-    sender_id: sender.id,
-    receiver_id: receiver.id
+user_ids = User.pluck(:id)
+
+# Create 10 chats
+10.times do
+  sender_id, receiver_id = user_ids.sample(2)
+  Chat.create!(
+    sender_id: sender_id,
+    receiver_id: receiver_id
   )
 end
 
-20.times do
-  chat = chats.sample
-  sender = users.sample
+chat_ids = Chat.pluck(:id)
+
+# Create 10 messages
+10.times do
   Message.create!(
-    chat_id: chat.id,
-    user_id: sender.id,
-    body: "Hello from #{sender.first_name}!"
+    chat_id: chat_ids.sample,
+    user_id: user_ids.sample,
+    body: "This is a test message #{rand(100..999)}"
   )
 end
