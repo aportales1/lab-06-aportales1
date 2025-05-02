@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  resources :users,    only: %i[index show]
-  resources :chats,    only: %i[index show]
-  resources :messages, only: %i[index show]
+  resources :users, only: [:index, :show, :new, :create]
+  resources :chats, only: [:index, :show, :new, :create]
+  resources :messages, only: [:index, :show, :new, :create]
 
   root "users#index"
 end
