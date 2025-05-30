@@ -19,9 +19,16 @@
         <td><%= message.chat_id %></td>
         <td><%= message.user_id %></td>
         <td><%= message.body %></td>
-        <td><%= link_to "Show", message_path(message), class: "btn btn-sm btn-outline-primary" %></td>
+        <td>
+          <%= link_to "Show", message_path(message), class: "btn btn-sm btn-outline-primary me-1" %>
+          <% if can? :edit, message %>
+            <%= link_to "Edit", edit_message_path(message), class: "btn btn-sm btn-outline-warning me-1" %>
+          <% end %>
+          <% if can? :destroy, message %>
+            <%= link_to "Delete", message_path(message), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-outline-danger" %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
-

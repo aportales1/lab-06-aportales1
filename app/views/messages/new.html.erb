@@ -14,12 +14,10 @@
 
   <div class="mb-3">
     <%= f.label :chat_id %>
-    <%= f.select :chat_id, Chat.all.map { |c| ["Chat ##{c.id} (#{c.sender.first_name} → #{c.receiver.first_name})", c.id] }, {}, class: "form-select" %>
-  </div>
-
-  <div class="mb-3">
-    <%= f.label :user_id, "Author" %>
-    <%= f.select :user_id, User.all.map { |u| [u.first_name, u.id] }, {}, class: "form-select" %>
+    <% user_chats = Chat.where("sender_id = ? OR receiver_id = ?", current_user.id, current_user.id) %>
+    <%= f.select :chat_id,
+      user_chats.map { |c| ["Chat ##{c.id} (#{c.sender.first_name} → #{c.receiver.first_name})", c.id] },
+      {}, class: "form-select" %>
   </div>
 
   <div class="mb-3">

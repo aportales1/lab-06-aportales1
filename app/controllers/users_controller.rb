@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :authenticate_user!, except: [:index]
+  load_and_authorize_resource
   def index
     @users = User.all
   end
@@ -19,6 +21,19 @@ class UsersController < ApplicationController
     render :new
     end
   end
+
+  def edit
+    @user = User.find(params[:id])
+  end
+  
+  def update
+    @user = User.find(params[:id])
+    if @user.update(user_params)
+      redirect_to @user, notice: "User updated successfully."
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end  
 
   private
 

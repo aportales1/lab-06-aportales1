@@ -5,22 +5,18 @@
     <div class="alert alert-danger">
       <h4>Errors:</h4>
       <ul>
-        <% @chat.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
+        <% @chat.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
 
   <div class="mb-3">
-    <%= f.label :sender_id %>
-    <%= f.select :sender_id, User.all.map { |u| [u.first_name, u.id] }, {}, class: "form-select" %>
-  </div>
-
-  <div class="mb-3">
-    <%= f.label :receiver_id %>
-    <%= f.select :receiver_id, User.all.map { |u| [u.first_name, u.id] }, {}, class: "form-select" %>
+    <%= f.label :receiver_id, "Receiver" %>
+    <%= f.select :receiver_id, User.where.not(id: current_user.id).map { |u| ["#{u.first_name} #{u.last_name}", u.id] }, {}, class: "form-select" %>
   </div>
 
   <%= f.submit "Create Chat", class: "btn btn-primary" %>
 <% end %>
+

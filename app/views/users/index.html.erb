@@ -1,13 +1,12 @@
 <h1>Users</h1>
 
-<%= link_to "Add new user", new_user_path, class: "btn btn-success mb-3" %>
-
 <table class="table">
   <thead>
     <tr>
       <th>ID</th>
       <th>Email</th>
       <th>Name</th>
+      <th>Messages sent</th> 
       <th></th>
     </tr>
   </thead>
@@ -17,7 +16,15 @@
         <td><%= user.id %></td>
         <td><%= user.email %></td>
         <td><%= "#{user.first_name} #{user.last_name}" %></td>
-        <td><%= link_to "Show", user_path(user), class: "btn btn-sm btn-outline-primary" %></td>
+        <td><%= user.messages.count %></td>
+        <<td>
+        <td>
+          <%= link_to "Show", user_path(user), class: "btn btn-sm btn-outline-primary" %>
+          <% if can? :edit, user %>
+            <%= link_to "Edit", edit_user_path(user), class: "btn btn-sm btn-outline-warning" %>
+          <% end %>
+        </td>
+        </td>
       </tr>
     <% end %>
   </tbody>

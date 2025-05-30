@@ -1,7 +1,15 @@
 Rails.application.routes.draw do
-  resources :users, only: [:index, :show, :new, :create]
-  resources :chats, only: [:index, :show, :new, :create]
-  resources :messages, only: [:index, :show, :new, :create]
+  devise_for :users
+  resources :users
+  resources :chats
+  resources :messages
 
-  root "users#index"
+  authenticated :user do
+    root to: "users#index", as: :authenticated_root
+  end
+  
+  unauthenticated do
+    root to: redirect('/users/sign_in'), as: :unauthenticated_root
+  end
+  
 end

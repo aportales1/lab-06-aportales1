@@ -6,4 +6,19 @@
   <li>Body: <%= @message.body %></li>
 </ul>
 
-<%= link_to "Back to messages", messages_path, class: "btn btn-secondary mt-2" %>
+<%= link_to "Back to messages", messages_path, class: "btn btn-secondary" %>
+
+<% if can? :edit, @message %>
+  <%= link_to "Edit", edit_message_path(@message), class: "btn btn-warning ms-2" %>
+<% end %>
+
+<% if can? :destroy, @message %>
+  <%= link_to "Delete", @message, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger ms-2" %>
+<% end %>
+
+
+<h2>Associations</h2>
+<p>
+  <strong>Author:</strong> <%= @message.user.first_name %><br>
+  <strong>Chat:</strong> <%= link_to "Chat ##{@message.chat.id}", chat_path(@message.chat) %>
+</p>

@@ -6,4 +6,22 @@
   <li>Receiver ID: <%= @chat.receiver_id %></li>
 </ul>
 
+<%= link_to "Edit Chat", edit_chat_path(@chat), class: "btn btn-warning me-2" %>
 <%= link_to "Back to chats", chats_path, class: "btn btn-secondary mt-2" %>
+
+
+<h2>Participants</h2>
+<p>
+  Sender: <%= User.find(@chat.sender_id).first_name %><br>
+  Receiver: <%= User.find(@chat.receiver_id).first_name %>
+</p>
+
+<h2>Messages in this chat</h2>
+<ul>
+  <% @chat.messages.each do |message| %>
+    <li>
+      <strong><%= message.user.first_name %>:</strong> <%= message.body %>
+      (<%= link_to "View", message_path(message) %>)
+    </li>
+  <% end %>
+</ul>

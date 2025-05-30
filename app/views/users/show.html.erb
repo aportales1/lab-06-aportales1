@@ -1,4 +1,3 @@
-
 <h1>User <%= @user.id %></h1>
 
 <ul>
@@ -7,4 +6,25 @@
   <li>Last name: <%= @user.last_name %></li>
 </ul>
 
+<%= link_to "Edit User", edit_user_path(@user), class: "btn btn-warning me-2" %>
 <%= link_to "Back to users", users_path, class: "btn btn-secondary mt-2" %>
+
+<h2>Chats where this user participates</h2>
+<ul>
+  <% (@user.sent_chats + @user.received_chats).uniq.each do |chat| %>
+    <li>
+      Chat between <%= User.find(chat.sender_id).first_name %> and <%= User.find(chat.receiver_id).first_name %>
+      (<%= link_to "View Chat", chat_path(chat) %>)
+    </li>
+  <% end %>
+</ul>
+
+<h2>Messages sent by this user</h2>
+<ul>
+  <% @user.messages.each do |message| %>
+    <li>
+      "<%= message.body %>" in Chat #<%= message.chat_id %> 
+      (<%= link_to "View", message_path(message) %>)
+    </li>
+  <% end %>
+</ul>
