@@ -2,8 +2,10 @@ class UsersController < ApplicationController
   before_action :authenticate_user!, except: [:index]
   load_and_authorize_resource
   def index
+    redirect_to chats_path, alert: "You are not authorized to see all users." unless can? :manage, User
     @users = User.all
   end
+  
   
   def show
     @user = User.find(params[:id])

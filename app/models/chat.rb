@@ -12,5 +12,11 @@ class Chat < ApplicationRecord
       errors.add(:receiver_id, "must be different from sender")
     end
   end
+  scope :for_user, ->(user) {
+    where("sender_id = ? OR receiver_id = ?", user.id, user.id)
+  }
+  def other_participant(current_user)
+    sender == current_user ? receiver : sender
+  end  
 end
 

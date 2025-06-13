@@ -6,8 +6,7 @@
   <thead>
     <tr>
       <th>ID</th>
-      <th>Sender ID</th>
-      <th>Receiver ID</th>
+      <th>Other Participant</th>
       <th></th>
     </tr>
   </thead>
@@ -15,8 +14,7 @@
     <% @chats.each do |chat| %>
       <tr>
         <td><%= chat.id %></td>
-        <td><%= chat.sender_id %></td>
-        <td><%= chat.receiver_id %></td>
+        <td><%= chat.other_participant(current_user).first_name %> <%= chat.other_participant(current_user).last_name %></td>
         <td>
           <%= link_to "Show", chat_path(chat), class: "btn btn-sm btn-primary" %>
           <% if can? :update, chat %>

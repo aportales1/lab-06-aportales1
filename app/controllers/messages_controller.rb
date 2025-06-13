@@ -2,26 +2,28 @@ class MessagesController < ApplicationController
   before_action :authenticate_user!
   load_and_authorize_resource
 
+  
   def index
-    @messages = Message.all
+    @messages = Message.where(user_id: current_user.id)
   end
+  
 
   def show
     @message = Message.find(params[:id])
   end
 
   def new
-    @message = Message.new
-  end
+    @message = current_user.messages.build
+    authorize! :create, @message
+  end  
   
   def create
-    @message = Message.new(message_params)
-    @message.user = current_user
+    @message = current_user.messages.build(message_params)
   
     if @message.save
       redirect_to @message, notice: "Message sent successfully."
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
   
